@@ -1,6 +1,6 @@
 import http.client
 import json
-  
+from loguru import logger
 class FloodlightApi(object):
   
     def __init__(self, server):
@@ -8,6 +8,7 @@ class FloodlightApi(object):
   
     def get(self, data, path):
         ret = self.rest_call(data, 'GET', path)
+        logger.error(ret)
         return json.loads(ret[2])
   
     def set(self, data):
@@ -29,7 +30,6 @@ class FloodlightApi(object):
         conn.request(action, path, body, headers)
         response = conn.getresponse()
         ret = (response.status, response.reason, response.read())
-        print(ret)
         conn.close()
         return ret
 
